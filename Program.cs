@@ -1,3 +1,5 @@
+using CarBuilderAPI.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,29 +18,117 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+List<PaintColor> paintColors = new List<PaintColor>()
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+    new PaintColor()
+    {
+        Id = 1,
+        Price = 500.00M,
+        Color = "Silver"
+    },
+    new PaintColor()
+    {
+        Id = 2,
+        Price = 600.00M,
+        Color = "Midnight Blue"
+    },
+    new PaintColor()
+    {
+        Id = 3,
+        Price = 800.00M,
+        Color = "Firebrick Red"
+    },
+    new PaintColor()
+    {
+        Id = 4,
+        Price = 700.00M,
+        Color = "Spring Green"
+    }
 };
 
-app.MapGet("/weatherforecast", () =>
+List<Interior> interiors = new List<Interior>()
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+    new Interior()
+    {
+        Id = 1,
+        Price = 300.00M,
+        Material = "Beige Fabric"
+    },
+    new Interior()
+    {
+        Id = 2,
+        Price = 450.00M,
+        Material = "Charcoal Fabric"
+    },
+    new Interior()
+    {
+        Id = 3,
+        Price = 400.00M,
+        Material = "White Leather"
+    },
+    new Interior()
+    {
+        Id = 4,
+        Price = 500.00M,
+        Material = "Black Leather"
+    }
+};
+
+List<Technology> technologies = new List<Technology>()
+{
+    new Technology()
+    {
+        Id = 1,
+        Price = 1000.00M,
+        Package = "Basic Package",
+    },
+    new Technology()
+    {
+        Id = 2,
+        Price = 1500.00M,
+        Package = "Navigation Package",
+    },
+    new Technology()
+    {
+        Id = 3,
+        Price = 2000.00M,
+        Package = "Visibility Package",
+    },
+    new Technology()
+    {
+        Id = 4,
+        Price = 2500.00M,
+        Package = "Ultra Package",
+    }
+};
+
+List<Wheel> wheels = new List<Wheel>()
+{
+    new Wheel()
+    {
+        Id = 1,
+        Price = 400.00M,
+        Style = "17-inch Pair Radial"
+    },
+    new Wheel()
+    {
+        Id = 2,
+        Price = 550.00M,
+        Style = "17-inch Pair Radial Black"
+    },
+    new Wheel()
+    {
+        Id = 3,
+        Price = 650.00M,
+        Style = "18-inch Pair Spoke Silver"
+    },
+    new Wheel()
+    {
+        Id = 4,
+        Price = 750.00M,
+        Style = "18-inch Pair Spoke Black"
+    }
+};
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
