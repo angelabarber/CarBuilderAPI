@@ -197,16 +197,31 @@ app.MapGet("/orders", () =>
         PaintColorId = o.PaintColorId,
         TechnologyId = o.TechnologyId,
         WheelId = o.WheelId,
-        Interior = interiors.FirstOrDefault(i => i.Id == o.InteriorId
-        ? new InteriorDTO
-        {
-            Id = i.Id,
-            Price = i.Price,
-            Material = i.Material
-        }
-        :null)
+        Interior = interiors
+                    .Where( i => i.Id == o.InteriorId)
+                    .Select(i => new InteriorDTO
+                    {
+                        Id = i.Id,
+                        Price = i.Price,
+                        Material = i.Material
+                    })
+                    .FirstOrDefault()
+    
     });
-});
+}
+);
+
+
+//         Interior = interiors.FirstOrDefault(i => i.Id == o.InteriorId
+//         ? new InteriorDTO
+//         {
+//             Id = i.Id,
+//             Price = i.Price,
+//             Material = i.Material
+//         }
+//         :null)
+//     });
+// });
 
 
 

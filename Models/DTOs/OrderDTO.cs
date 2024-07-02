@@ -14,11 +14,11 @@ public class OrderDTO
 
     public int InteriorId { get;set; }
 
-    public Wheel Wheel {get;set;}
+    public WheelDTO Wheel {get;set;}
 
-    public Technology Technology {get ; set;}
+    public TechnologyDTO Technology {get ; set;}
 
-    public Interior Interior {get; set;}
+    public InteriorDTO Interior {get; set;}
 
-    public PaintColor PaintColor {get; set; }
+    public PaintColorDTO PaintColor {get; set; }
 }
