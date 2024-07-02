@@ -1,3 +1,4 @@
+
 using CarBuilderAPI.Models;
 using CarBuilderAPI.Models.DTOs;
 
@@ -205,7 +206,18 @@ app.MapGet("/orders", () =>
                         Price = i.Price,
                         Material = i.Material
                     })
-                    .FirstOrDefault()
+                    .FirstOrDefault(),
+
+        PaintColor = paintColors
+            .Where (pc => pc.Id == o.PaintColorId)
+            .Select(pc => new PaintColorDTO
+            {
+                Id = pc.Id,
+                Price = pc.Price,
+                Color = pc.Color
+            })
+            .FirstOrDefault()
+
     
     });
 }
