@@ -14,4 +14,12 @@ public class Order
 
     public int InteriorId { get;set; }
 
+    public Wheel? Wheel {get;set;}
+
+    public Technology? Technology {get ; set;}
+
+    public Interior? Interior {get; set;}
+
+    public PaintColor? PaintColor {get; set; }
+
 }

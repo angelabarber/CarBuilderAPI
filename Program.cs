@@ -188,6 +188,25 @@ app.MapGet("/paintcolors", () =>
     });
 });
 
+app.MapGet("/orders", () => 
+{
+    return orders.Select(o => new OrderDTO
+    {
+        Id = o.Id,
+        InteriorId = o.InteriorId,
+        PaintColorId = o.PaintColorId,
+        TechnologyId = o.TechnologyId,
+        WheelId = o.WheelId,
+        Interior = interiors.FirstOrDefault(i => i.Id == o.InteriorId
+        ? new InteriorDTO
+        {
+            Id = i.Id,
+            Price = i.Price,
+            Material = i.Material
+        }
+        :null)
+    });
+});
 
 
 
