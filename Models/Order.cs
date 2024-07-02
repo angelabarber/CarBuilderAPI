@@ -10,7 +10,7 @@ public class Order
 
     public int TechnologyId { get; set; }
 
-    public int PaintId { get;set; }
+    public int PaintColorId { get;set; }
 
     public int InteriorId { get;set; }
 

@@ -1,4 +1,5 @@
 using CarBuilderAPI.Models;
+using CarBuilderAPI.Models.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -129,6 +130,67 @@ List<Wheel> wheels = new List<Wheel>()
         Style = "18-inch Pair Spoke Black"
     }
 };
+
+List<Order> orders = new List<Order>()
+{
+    new Order()
+    {
+        Id = 1,
+        WheelId = 4,
+        InteriorId = 3,
+        TechnologyId = 3,
+        PaintColorId = 2
+    }
+};
+
+app.MapGet("/wheels", () =>
+{
+    return wheels.Select(w => new WheelDTO
+    {
+        Id = w.Id,
+        Price = w.Price,
+        Style = w.Style
+    
+    });
+});
+
+
+app.MapGet("/technologies", () =>
+{
+    return technologies.Select(t => new TechnologyDTO
+    {
+        Id = t.Id,
+        Price = t.Price,
+        Package = t.Package
+    
+    });
+});
+
+app.MapGet("/interiors", () =>
+{
+    return interiors.Select(i => new InteriorDTO
+    {
+        Id = i.Id,
+        Price = i.Price,
+        Material = i.Material
+    
+    });
+});
+
+app.MapGet("/paintcolors", () =>
+{
+    return interiors.Select(p => new PaintColorDTO
+    {
+        Id = p.Id,
+        Price = p.Price,
+        Color = p.Material
+    
+    });
+});
+
+
+
+
 
 app.Run();
 
