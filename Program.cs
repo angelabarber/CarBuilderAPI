@@ -216,26 +216,38 @@ app.MapGet("/orders", () =>
                 Price = pc.Price,
                 Color = pc.Color
             })
+            .FirstOrDefault(),
+        Technology = technologies
+            .Where (t => t.Id == o.TechnologyId)
+            .Select(t => new TechnologyDTO
+            {
+                Id = t.Id,
+                Price = t.Price,
+                Package = t.Package
+            })
+            .FirstOrDefault(),
+        Wheel = wheels
+            .Where (w => w.Id == o.WheelId)
+            .Select(w => new WheelDTO
+            {
+                Id = w.Id,
+                Price = w.Price,
+                Style = w.Style
+            })
             .FirstOrDefault()
 
     
     });
-}
-);
+});
 
+app.MapPost("/orders", (Order order) =>
+{
+    order.Id = orders.Count > 0 ? orders.Max(o => o.Id) + 1 : 1;
+    order.Timestamp = DateTime.Now;
+    orders.Add(order);
+    return Results.Ok(order);
 
-//         Interior = interiors.FirstOrDefault(i => i.Id == o.InteriorId
-//         ? new InteriorDTO
-//         {
-//             Id = i.Id,
-//             Price = i.Price,
-//             Material = i.Material
-//         }
-//         :null)
-//     });
-// });
-
-
+});
 
 
 app.Run();

@@ -5,7 +5,7 @@ public class Order
 {
     public  int Id {get; set;}
 
-    public DateTime DateCompleted { get; set; }
+    public DateTime Timestamp { get; set; }
 
     public int WheelId { get; set; }
 
