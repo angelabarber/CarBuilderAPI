@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -16,6 +17,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(options =>
+                {
+                    options.AllowAnyOrigin();
+                    options.AllowAnyMethod();
+                    options.AllowAnyHeader();
+                });
 }
 
 app.UseHttpsRedirection();
@@ -245,9 +252,102 @@ app.MapPost("/orders", (Order order) =>
     order.Id = orders.Count > 0 ? orders.Max(o => o.Id) + 1 : 1;
     order.Timestamp = DateTime.Now;
     orders.Add(order);
-    return Results.Ok(order);
-
+    return Results.Ok(
+        orders
+        .Where( o => o.Id == order.Id)
+        .Select(o => new OrderDTO
+        {
+        Id = o.Id,
+        InteriorId = o.InteriorId,
+        PaintColorId = o.PaintColorId,
+        TechnologyId = o.TechnologyId,
+        WheelId = o.WheelId,
+        Interior = interiors
+                    .Where(i => i.Id == o.InteriorId)
+                    .Select(i => new InteriorDTO
+                    {
+                        Id = i.Id,
+                        Price = i.Price,
+                        Material = i.Material
+                    })
+                    .FirstOrDefault(),
+        PaintColor = paintColors
+            .Where(pc => pc.Id == o.PaintColorId)
+            .Select(pc => new PaintColorDTO
+            {
+                Id = pc.Id,
+                Price = pc.Price,
+                Color = pc.Color
+            })
+            .FirstOrDefault(),
+        Technology = technologies
+            .Where(t => t.Id == o.TechnologyId)
+            .Select(t => new TechnologyDTO
+            {
+                Id = t.Id,
+                Price = t.Price,
+                Package = t.Package
+            })
+            .FirstOrDefault(),
+        Wheel = wheels
+            .Where(w => w.Id == o.WheelId)
+            .Select(w => new WheelDTO
+            {
+                Id = w.Id,
+                Price = w.Price,
+                Style = w.Style
+            })
+            .FirstOrDefault()
+    }).FirstOrDefault());
 });
+//     {
+//         Id = o.Id,
+//         InteriorId = o.InteriorId,
+//         PaintColorId = o.PaintColorId,
+//         TechnologyId = o.TechnologyId,
+//         WheelId = o.WheelId,
+//         Interior = interiors
+//                     .Where( i => i.Id == o.InteriorId)
+//                     .Select(i => new InteriorDTO
+//                     {
+//                         Id = i.Id,
+//                         Price = i.Price,
+//                         Material = i.Material
+//                     })
+//                     .FirstOrDefault(),
+
+//         PaintColor = paintColors
+//             .Where (pc => pc.Id == o.PaintColorId)
+//             .Select(pc => new PaintColorDTO
+//             {
+//                 Id = pc.Id,
+//                 Price = pc.Price,
+//                 Color = pc.Color
+//             })
+//             .FirstOrDefault(),
+//         Technology = technologies
+//             .Where (t => t.Id == o.TechnologyId)
+//             .Select(t => new TechnologyDTO
+//             {
+//                 Id = t.Id,
+//                 Price = t.Price,
+//                 Package = t.Package
+//             })
+//             .FirstOrDefault(),
+//         Wheel = wheels
+//             .Where (w => w.Id == o.WheelId)
+//             .Select(w => new WheelDTO
+//             {
+//                 Id = w.Id,
+//                 Price = w.Price,
+//                 Style = w.Style
+//             })
+//             .FirstOrDefault()
+
+    
+//     }););
+
+// });
 
 
 app.Run();
