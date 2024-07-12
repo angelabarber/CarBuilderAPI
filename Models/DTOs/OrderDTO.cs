@@ -22,5 +22,5 @@ public class OrderDTO
 
     public PaintColorDTO PaintColor {get; set; }
 
-    public decimal TotalCost => Wheel.Price + Technology.Price + PaintColor.Price + Interior.Price;
+    public decimal TotalCost => (Wheel?.Price ?? 0) + (Technology?.Price ?? 0)+ (PaintColor?.Price ?? 0) + (Interior?.Price ?? 0);
 }

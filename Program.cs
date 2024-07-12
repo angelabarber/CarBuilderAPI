@@ -242,6 +242,7 @@ app.MapGet("/orders", () =>
                 Style = w.Style
             })
             .FirstOrDefault()
+      
 
     
     });
