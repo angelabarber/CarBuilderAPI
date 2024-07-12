@@ -21,4 +21,6 @@ public class OrderDTO
     public InteriorDTO Interior {get; set;}
 
     public PaintColorDTO PaintColor {get; set; }
+
+    public decimal TotalCost => Wheel.Price + Technology.Price + PaintColor.Price + Interior.Price;
 }
